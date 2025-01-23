@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main-style.css">
-
     <title>Tech Team Landing Page</title>
     <style>
         body {
@@ -14,42 +13,66 @@
             background-color: #f4f4f9;
             color: #333;
         }
+
         header {
             background-color: #003366;
             color: white;
             text-align: center;
             padding: 20px 0;
         }
+
         header h1 {
             margin: 0;
             font-size: 36px;
         }
+
         header p {
             font-size: 18px;
             margin: 5px 0;
         }
+
+        /* Navigation Styles */
         nav {
-            text-align: center;
-            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #003366;
+            padding: 10px 20px;
         }
+
         nav a {
             text-decoration: none;
             color: white;
-            background-color: #003366;
             padding: 10px 20px;
-            border-radius: 5px;
-            margin: 0 10px;
             font-size: 16px;
-            display: inline-block;
         }
+
         nav a:hover {
             background-color: #0055a5;
+            border-radius: 5px;
         }
+
+        .menu-toggle {
+            display: none;
+            background-color: #003366;
+            color: white;
+            font-size: 30px;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .menu {
+            display: flex;
+        }
+
+        /* Section Styles */
         main {
             padding: 20px;
             max-width: 800px;
             margin: 0 auto;
         }
+
         section {
             margin-bottom: 30px;
             background: white;
@@ -58,15 +81,18 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
         section h2 {
             margin-top: 0;
             color: #003366;
             font-size: 24px;
         }
+
         section p {
             font-size: 16px;
             line-height: 1.6;
         }
+
         footer {
             text-align: center;
             font-size: 14px;
@@ -75,6 +101,41 @@
             background: #003366;
             color: white;
         }
+
+        footer a {
+            color: #aaddff;
+            text-decoration: none;
+        }
+
+        /* Media Query for Mobile */
+        @media (max-width: 768px) {
+            .menu {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .menu.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                display: block;
+            }
+
+            nav a {
+                padding: 10px;
+                text-align: center;
+                width: 100%;
+                border-top: 1px solid #ddd;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -83,10 +144,16 @@
         <p>Your one-stop hub for all production and technical needs</p>
     </header>
 
-    <nav>
-        <a href="policy.html">View Team Policies</a>
-        <a href="resources.html">Team Resources</a>
-        <a href="contact.html">Contact Us</a>
+    <nav id="nav">
+        <!-- Mobile Toggle Button -->
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+        <!-- Regular Navigation Links -->
+        <div class="menu">
+            <a href="policy.html">View Team Policies</a>
+            <a href="resources.html">Team Resources</a>
+            <!--<a href="schedule.html">Production Schedule</a>-->
+        </div>
     </nav>
 
     <main>
@@ -111,7 +178,15 @@
     </main>
 
     <footer>
-        &copy; 2025 Tech Team | All rights reserved. Need help? Contact us via the <a href="contact.html" style="color: #aaddff;">contact page</a>.
+        &copy; 2025 Tech Team | All rights reserved. Need help? Contact us via the <a href="contact.html">contact page</a>.
     </footer>
+
+    <script>
+        // Toggle menu for mobile
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
