@@ -95,6 +95,17 @@ app.post('/api/announcements', (req, res) => {
     res.status(201).json(newAnnouncement);
 });
 
+// API endpoint to delete an announcement
+app.delete('/api/announcements/:id', (req, res) => {
+    const id = req.params.id;
+    if (announcements[id]) {
+        announcements.splice(id, 1);  // Remove the announcement from the array
+        res.status(200).json({ message: 'Announcement deleted successfully' });
+    } else {
+        res.status(404).json({ error: 'Announcement not found' });
+    }
+});
+
 // Dynamic route to display a full announcement
 app.get('/announcement/:id', (req, res) => {
     const id = req.params.id;
@@ -256,12 +267,12 @@ app.get('/admin', (req, res) => {
                         if (announcements.length > 0) {
                             existingAnnouncementsDiv.innerHTML = announcements
                                 .map((announcement, index) => {
-                                    return 
+                                    return `
                                         <div class="announcement">
                                             <p>${announcement.message}</p>
                                             <button class="delete-button" onclick="deleteAnnouncement(${index})">Delete</button>
                                         </div>
-                                    ;
+                                    `;
                                 })
                                 .join('');
                         } else {
