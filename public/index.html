@@ -203,23 +203,35 @@
             menu.classList.toggle('active');
         }
 
-        // Fetch Announcements from Server
+ // Fetch Announcements from the server
         async function fetchAnnouncements() {
             try {
-                const response = await fetch('announcements.json'); // You will need to create and serve this JSON file
+                const response = await fetch('/api/announcements');  // Fetching announcements from the server
                 const announcements = await response.json();
                 const announcementsDiv = document.getElementById('announcements');
+
                 if (announcements.length > 0) {
-                    announcementsDiv.innerHTML = announcements[0].message; // Show the latest announcement
+                    // Display all announcements
+                    announcementsDiv.innerHTML = announcements
+                        .map((announcement) => {
+                            return `
+                                <div class="announcement">
+                                    <h3>Announcement: ${announcement.timestamp}</h3>
+                                    <p>${announcement.message}</p>
+                                </div>
+                            `;
+                        })
+                        .join('');
                 } else {
-                    announcementsDiv.innerHTML = 'No announcements at the moment.';
+                    announcementsDiv.innerHTML = '<p class="no-announcement">No announcements at the moment.</p>';
                 }
             } catch (error) {
                 console.error('Error fetching announcements:', error);
-                document.getElementById('announcements').innerHTML = 'Failed to load announcements.';
+                document.getElementById('announcements').innerHTML = '<p class="no-announcement">Failed to load announcements.</p>';
             }
         }
 
+        // Call the function to fetch announcements
         fetchAnnouncements();
     </script>
 </body>
