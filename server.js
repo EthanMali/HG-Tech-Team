@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
-const { format } = require('date-fns');
+const { format, utcToZonedTime } = require('date-fns-tz');
 
 const app = express();
 
@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Path to save the signatures
-const filePath = path.join(__dirname, 'signatures.json');
+const filePath = '/mnt/data/signatures.json'; // Adjust this path if you're not using Render or persistent disks
 
 // Initialize signatures storage
 let signatures = [];
@@ -22,13 +22,21 @@ if (fs.existsSync(filePath)) {
     }
 }
 
-// Serve static files (e.g., your HTML form)
+// Timezone configuration (Replace with your specific timezone)
+const TIME_ZONE = 'America/New_York';
+
+// Serve static files (e.g., HTML form in `public` folder)
 app.use(express.static(path.join(__dirname, 'public')));
 
 // API endpoint to handle form submissions
 app.post('/api/signatures', (req, res) => {
     const name = req.body.name;
-    const timestamp = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
+
+    // Convert the current date to the desired timezone
+    const zonedDate = utcToZonedTime(new Date(), TIME_ZONE);
+
+    // Format the date in 12-hour format
+    const timestamp = format(zonedDate, 'yyyy-MM-dd hh:mm:ss a', { timeZone: TIME_ZONE });
 
     if (!name) {
         return res.status(400).json({ error: 'Name is required' });
@@ -37,7 +45,7 @@ app.post('/api/signatures', (req, res) => {
     const entry = { name, timestamp };
     signatures.push(entry);
 
-    // Save to signatures.json file
+    // Save the signatures to the file
     fs.writeFile(filePath, JSON.stringify(signatures, null, 2), (err) => {
         if (err) {
             console.error('Error saving signature:', err);
@@ -46,51 +54,40 @@ app.post('/api/signatures', (req, res) => {
 
         console.log('Signature saved:', entry);
 
-        // Respond with a styled "Thank You" page
+        // Respond with a Thank You page and a button to return home
         res.send(`
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Thank You</title>
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        text-align: center;
-                        background-color: #f4f4f9;
-                        color: #333;
-                        margin: 0;
-                        padding: 20px;
-                    }
-                    h1 {
-                        color: #003366;
-                        margin-bottom: 20px;
-                    }
-                    p {
-                        font-size: 18px;
-                        margin-bottom: 30px;
-                    }
-                    a {
-                        display: inline-block;
-                        text-decoration: none;
-                        color: white;
-                        background-color: #003366;
-                        padding: 10px 20px;
-                        border-radius: 5px;
-                        font-size: 16px;
-                        transition: background-color 0.3s;
-                    }
-                    a:hover {
-                        background-color: #0055aa;
-                    }
-                </style>
-            </head>
-            <body>
-                <h1>Thank You!</h1>
-                <p>Your acknowledgment has been submitted successfully.</p>
-                <a href="/">Back to Home</a>
-            </body>
+            <html>
+                <head>
+                    <title>Thank You</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            text-align: center;
+                            padding: 50px;
+                            background-color: #f4f4f9;
+                        }
+                        h1 {
+                            color: #003366;
+                        }
+                        button {
+                            padding: 10px 20px;
+                            font-size: 16px;
+                            background-color: #003366;
+                            color: white;
+                            border: none;
+                            border-radius: 5px;
+                            cursor: pointer;
+                        }
+                        button:hover {
+                            background-color: #0055a5;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Thank You, ${name}!</h1>
+                    <p>Your acknowledgment has been recorded.</p>
+                    <button onclick="window.location.href='/'">Go Back Home</button>
+                </body>
             </html>
         `);
     });
