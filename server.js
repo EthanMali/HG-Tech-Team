@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// In-memory storage for signatures (will reset when the server restarts)
+// In-memory storage for signatures and announcements (will reset when the server restarts)
 let signatures = [];
 let announcements = [];
 
@@ -110,6 +110,7 @@ app.get('/admin', (req, res) => {
                     body {
                         font-family: Arial, sans-serif;
                         padding: 20px;
+                        background-color: #f9f9f9;
                     }
 
                     h1 {
@@ -117,7 +118,7 @@ app.get('/admin', (req, res) => {
                     }
 
                     form {
-                        background-color: #f9f9f9;
+                        background-color: #fff;
                         padding: 20px;
                         border-radius: 8px;
                         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -151,15 +152,47 @@ app.get('/admin', (req, res) => {
                     button:hover {
                         background-color: #0055a5;
                     }
+
+                    .announcement {
+                        background-color: #fff;
+                        border: 1px solid #ddd;
+                        padding: 15px;
+                        margin: 10px 0;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                    }
+
+                    .announcement h3 {
+                        margin-top: 0;
+                        color: #003366;
+                    }
+
+                    .announcement p {
+                        color: #333;
+                    }
                 </style>
             </head>
             <body>
                 <h1>Create New Announcement</h1>
                 <form id="announcementForm">
                     <label for="announcement">Write Announcement:</label>
-                    <textarea id="announcement" rows="5"></textarea>
+                    <textarea id="announcement" rows="5" placeholder="Write your announcement here..."></textarea>
                     <button type="submit">Submit Announcement</button>
                 </form>
+
+                <h3>Existing Announcements</h3>
+                <div>
+                    ${announcements
+                        .map((announcement) => {
+                            return `
+                                <div class="announcement">
+                                    <h3>Announcement: ${announcement.timestamp}</h3>
+                                    <p>${announcement.message}</p>
+                                </div>
+                            `;
+                        })
+                        .join('')}
+                </div>
 
                 <script>
                     document.getElementById('announcementForm').addEventListener('submit', async (event) => {
@@ -177,6 +210,7 @@ app.get('/admin', (req, res) => {
                         if (response.ok) {
                             alert('Announcement submitted successfully!');
                             document.getElementById('announcement').value = '';  // Reset form
+                            location.reload();  // Reload the page to show updated announcements
                         } else {
                             alert('Failed to submit announcement.');
                         }
