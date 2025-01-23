@@ -97,45 +97,28 @@ app.get('/api/signatures', (req, res) => {
 
 // API endpoint for signing policies
 app.post('/api/signatures', (req, res) => {
-    const { name, checked } = req.body;
+    const { name, acknowledge } = req.body;
 
-    if (!name || checked !== true) {
-        return res.status(400).json({ error: 'You must agree to the policy by checking the box.' });
+    if (!name || acknowledge !== 'on') {
+        return res.status(400).json({ error: 'Name is required and the checkbox must be checked' });
     }
 
     const zonedDate = utcToZonedTime(new Date(), TIME_ZONE);
     const timestamp = format(zonedDate, 'yyyy-MM-dd hh:mm:ss a', { timeZone: TIME_ZONE });
 
-    const signature = { id: policySignatures.length, name, timestamp, checked };
+    const signature = { id: policySignatures.length, name, timestamp };
     policySignatures.push(signature);
 
-    // Respond with a Thank You page after signing the policy
+    // Respond with a Thank You page
     res.send(`
         <html>
             <head>
                 <title>Thank You</title>
                 <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        text-align: center;
-                        padding: 50px;
-                        background-color: #f4f4f9;
-                    }
-                    h1 {
-                        color: #003366;
-                    }
-                    button {
-                        padding: 10px 20px;
-                        font-size: 16px;
-                        background-color: #003366;
-                        color: white;
-                        border: none;
-                        border-radius: 5px;
-                        cursor: pointer;
-                    }
-                    button:hover {
-                        background-color: #0055a5;
-                    }
+                    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f4f4f9; }
+                    h1 { color: #003366; }
+                    button { padding: 10px 20px; font-size: 16px; background-color: #003366; color: white; border: none; border-radius: 5px; cursor: pointer; }
+                    button:hover { background-color: #0055a5; }
                 </style>
             </head>
             <body>
@@ -147,75 +130,6 @@ app.post('/api/signatures', (req, res) => {
     `);
 });
 
-
-// Dynamic route to display a full announcement
-app.get('/announcement/:id', (req, res) => {
-    const id = req.params.id;
-
-    if (announcements[id]) {
-        res.send(`
-            <html>
-                <head>
-                    <title>Announcement Details</title>
-                    <style>
-                        body {
-                            font-family: Arial, sans-serif;
-                            padding: 20px;
-                            background-color: #f9f9f9;
-                        }
-
-                        h1 {
-                            color: #003366;
-                            font-size: 2em;
-                            text-align: center;
-                        }
-
-                        .announcement {
-                            background-color: #fff;
-                            border: 1px solid #ddd;
-                            padding: 20px;
-                            margin: 20px auto;
-                            max-width: 800px;
-                            border-radius: 8px;
-                            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-                            text-align: center;
-                        }
-
-                        .announcement p {
-                            font-size: 1.2em;
-                            line-height: 1.6;
-                            color: #333;
-                        }
-
-                        button {
-                            background-color: #003366;
-                            color: white;
-                            padding: 10px 20px;
-                            font-size: 16px;
-                            border: none;
-                            border-radius: 5px;
-                            cursor: pointer;
-                            transition: background-color 0.3s;
-                        }
-
-                        button:hover {
-                            background-color: #0055a5;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <h1>Announcement</h1>
-                    <div class="announcement">
-                        <p>${announcements[id].message}</p>
-                    </div>
-                    <button onclick="window.location.href='/'">Back to Home</button>
-                </body>
-            </html>
-        `);
-    } else {
-        res.status(404).send('Announcement not found');
-    }
-});
 
 // Serve the external admin.html page directly
 app.get('/admin', (req, res) => {
