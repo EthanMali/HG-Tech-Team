@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
+    <!-- FullCalendar CSS and JS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
         h1 { color: #003366; }
@@ -17,11 +21,16 @@
         .announcement-details { background-color: #f1f1f1; padding: 15px; margin: 10px 0; border-radius: 5px; display: none; }
         .delete-button { background-color: red; padding: 5px 10px; color: white; border: none; cursor: pointer; }
         .delete-button:hover { background-color: darkred; }
+        #calendar { margin-top: 30px; }
+        .event-details { margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <h1>Create New Announcement</h1>
+    <h1>Admin Panel</h1>
+
+    <!-- Announcement Section -->
+    <h2>Create New Announcement</h2>
     <form id="announcementForm">
         <label for="announcement">Write Announcement:</label>
         <textarea id="announcement" rows="5"></textarea><br>
@@ -30,6 +39,21 @@
 
     <h2>Existing Announcements</h2>
     <div id="existingAnnouncements"></div>
+
+    <!-- Calendar Section -->
+    <h2>Team Schedule</h2>
+    <div id="calendar"></div>
+
+    <h2 class="event-details" id="eventDetails"></h2>
+
+    <h2>Schedule New Event</h2>
+    <form id="eventForm">
+        <label for="eventTitle">Event Title:</label>
+        <input type="text" id="eventTitle" required><br>
+        <label for="eventDate">Event Date:</label>
+        <input type="datetime-local" id="eventDate" required><br>
+        <button type="submit">Add Event</button>
+    </form>
 
     <script>
         // Fetch existing announcements
@@ -66,7 +90,7 @@
             }
         }
 
-        // Handle form submission
+        // Handle form submission for announcement
         document.getElementById('announcementForm').addEventListener('submit', async (event) => {
             event.preventDefault();
             const message = document.getElementById('announcement').value;
@@ -80,6 +104,49 @@
                 document.getElementById('announcement').value = ''; // Reset form
                 fetchAnnouncements(); // Refresh announcements
             }
+        });
+
+        // Initialize the calendar
+        $(document).ready(function() {
+            const events = [];  // Array to hold events
+            const calendar = $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                events: events,
+                dayClick: function(date, jsEvent, view) {
+                    const eventDate = date.format('YYYY-MM-DD HH:mm');
+                    document.getElementById('eventDetails').innerHTML = `
+                        <p><strong>Clicked on:</strong> ${eventDate}</p>
+                    `;
+                },
+                eventClick: function(event, jsEvent, view) {
+                    document.getElementById('eventDetails').innerHTML = `
+                        <p><strong>Event Title:</strong> ${event.title}</p>
+                        <p><strong>Event Date:</strong> ${event.start.format('YYYY-MM-DD HH:mm')}</p>
+                    `;
+                }
+            });
+
+            // Handle form submission for scheduling an event
+            document.getElementById('eventForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const title = document.getElementById('eventTitle').value;
+                const date = document.getElementById('eventDate').value;
+                const eventDate = moment(date);
+                
+                if (title && date) {
+                    calendar.fullCalendar('renderEvent', {
+                        title: title,
+                        start: eventDate,
+                        allDay: false
+                    });
+                    document.getElementById('eventForm').reset();  // Reset form after adding event
+                    alert('Event added to the calendar!');
+                }
+            });
         });
 
         // Call fetchAnnouncements on page load
