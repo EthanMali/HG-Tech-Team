@@ -5,81 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            padding: 20px;
-        }
-
-        h1 {
-            color: #003366;
-        }
-
-        form {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
-        textarea {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: #003366;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        button:hover {
-            background-color: #0055a5;
-        }
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h1 { color: #003366; }
+        form { margin-bottom: 20px; }
+        textarea { width: 100%; padding: 10px; }
+        button { background-color: #003366; color: white; padding: 10px; }
+        button:hover { background-color: #0055a5; }
+        .announcement { background-color: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .delete-button { background-color: red; padding: 5px 10px; color: white; border: none; cursor: pointer; }
+        .delete-button:hover { background-color: darkred; }
     </style>
 </head>
 <body>
 
-    <h1>Admin Panel</h1>
+    <h1>Create New Announcement</h1>
     <form id="announcementForm">
         <label for="announcement">Write Announcement:</label>
-        <textarea id="announcement" rows="5"></textarea>
+        <textarea id="announcement" rows="5"></textarea><br>
         <button type="submit">Submit Announcement</button>
     </form>
 
+    <h2>Existing Announcements</h2>
+    <div id="existingAnnouncements"></div>
+
     <script>
+        // Fetch existing announcements
+        async function fetchAnnouncements() {
+            const response = await fetch('https://hg-tech-team.onrender.com/api/announcements');
+            const announcements = await response.json();
+            const existingAnnouncementsDiv = document.getElementById('existingAnnouncements');
+            existingAnnouncementsDiv.innerHTML = announcements.map(announcement => `
+                <div class="announcement">
+                    <p>${announcement.message}</p>
+                    <button class="delete-button" onclick="deleteAnnouncement(${announcement.id})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        // Delete an announcement
+        async function deleteAnnouncement(id) {
+            const response = await fetch(`https://hg-tech-team.onrender.com/api/announcements/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                alert('Announcement deleted!');
+                fetchAnnouncements(); // Refresh announcements
+            }
+        }
+
+        // Handle form submission
         document.getElementById('announcementForm').addEventListener('submit', async (event) => {
             event.preventDefault();
-            const announcementMessage = document.getElementById('announcement').value;
-
-            const response = await fetch('save-announcement.php', {
+            const message = document.getElementById('announcement').value;
+            const response = await fetch('https://hg-tech-team.onrender.com/api/announcements', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ message: announcementMessage })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
             });
-
             if (response.ok) {
-                alert('Announcement submitted successfully!');
-            } else {
-                alert('Failed to submit announcement.');
+                alert('Announcement created!');
+                document.getElementById('announcement').value = ''; // Reset form
+                fetchAnnouncements(); // Refresh announcements
             }
         });
+
+        // Call fetchAnnouncements on page load
+        fetchAnnouncements();
     </script>
 
 </body>
