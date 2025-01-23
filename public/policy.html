@@ -26,44 +26,13 @@
             font-size: 1.1rem;
             margin: 0;
         }
-        section {
+        .tab-content {
             background: white;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        section h2 {
-            font-size: 1.6rem;
-            color: #003366;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #003366;
-            padding-bottom: 10px;
-        }
-        section ul {
-            list-style-type: decimal;
-            margin-left: 20px;
-        }
-        section ul li {
-            margin-bottom: 10px;
-        }
-        .signature {
-            background-color: #e6f2ff;
-            padding: 30px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 30px;
-        }
-        .signature input[type="text"] {
-            padding: 10px;
-            width: 100%;
-            max-width: 400px;
-            font-size: 16px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
+            font-family:'Arial Narrow Bold', sans-serif;
         }
         .form-check-label {
             font-size: 1rem;
@@ -100,66 +69,109 @@
             <p>Guidelines for Professional Conduct and Productivity</p>
         </header>
 
-        <!-- General Rules Section -->
-        <section class="mb-4">
-            <h2>General Rules</h2>
-            <ul>
-                <li>All personnel on duty must refrain from using their phones unless for church purposes.</li>
-                <li>All personnel must not leave their duty station unless it is an emergency.</li>
-                <li>I expect full professionalism and no playing around.</li>
-                <li>All personnel should arrive at their stations at least 15 minutes before their scheduled time to ensure readiness.</li>
-                <li>Maintain cleanliness and organization at your station at all times.</li>
-            </ul>
-        </section>
+        <!-- Tabs Navigation for Versions -->
+        <ul class="nav nav-tabs" id="policyTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="generalPoliciesV1Tab" data-bs-toggle="tab" href="#generalPoliciesV1" role="tab">General Policies v1.0</a>
+            </li>
+            <!--<li class="nav-item" role="presentation">
+                <a class="nav-link" id="generalPoliciesV2Tab" data-bs-toggle="tab" href="#generalPoliciesV2" role="tab">General Policies v2.0</a>
+            </li>-->
+            <!-- Add more versions as needed -->
+        </ul>
 
-        <!-- Failure to Comply Section -->
-        <section class="mb-4">
-            <h2>Failure to Comply</h2>
-            <ul>
-                <li>First offense: You will be spoken to directly by the team leader.</li>
-                <li>Second offense: You will be required to meet with a higher authority.</li>
-                <li>Third offense: You will be removed from the production team.</li>
-            </ul>
-        </section>
+        <!-- Tab Content -->
+        <div class="tab-content mt-3">
+            <!-- v1.0 Policies -->
+            <div class="tab-pane fade show active" id="generalPoliciesV1" role="tabpanel">
+                <h2>General Rules </h2>
+                <ul>
+                    <li>All personnel on duty must refrain from using their phones unless for church purposes.</li>
+                    <li>All personnel must not leave their duty station unless it is an emergency.</li>
+                    <li>I expect full professionalism and no playing around.</li>
+                    <li>All personnel should arrive at their stations at least 15 minutes before their scheduled time to ensure readiness.</li>
+                    <li>Maintain cleanliness and organization at your station at all times.</li>
+                </ul>
 
-        <!-- Punctuality Section -->
-        <section class="mb-4">
-            <h2>Punctuality</h2>
-            <ul>
-                <li>All personnel must arrive on time for their shifts. Being late without prior notification will result in disciplinary action.</li>
-                <li>If you anticipate being late, inform the team leader as early as possible.</li>
-            </ul>
-        </section>
+                <h2>Failure to Comply </h2>
+                <ul>
+                    <li>First offense: You will be spoken to directly by the team leader.</li>
+                    <li>Second offense: You will be required to meet with a higher authority.</li>
+                    <li>Third offense: You will be removed from the production team.</li>
+                </ul>
 
-        <!-- Respect for Equipment Section -->
-        <section class="mb-4">
-            <h2>Respect for Equipment</h2>
-            <ul>
-                <li>Handle all production equipment with care. Any damage caused by neglect or improper use will result in personal responsibility for repair costs.</li>
-                <li>Report any malfunctions or damages immediately to the team leader or supervisor.</li>
-            </ul>
-        </section>
+                <h2>Punctuality</h2>
+                <ul>
+                    <li>All personnel must arrive on time for their shifts. Being late without prior notification will result in disciplinary action.</li>
+                    <li>If you anticipate being late, inform the team leader as early as possible.</li>
+                </ul>
 
-        <!-- Team Communication Section -->
-        <section class="mb-4">
-            <h2>Team Communication</h2>
-            <ul>
-                <li>Clear and effective communication is expected at all times. If you need assistance or encounter issues, reach out to the team lead or fellow team members.</li>
-                <li>Use professional and respectful language in all forms of communication, including emails and messages.</li>
-            </ul>
-        </section>
+                <h2>Respect for Equipment</h2>
+                <ul>
+                    <li>Handle all production equipment with care. Any damage caused by neglect or improper use will result in personal responsibility for repair costs.</li>
+                    <li>Report any malfunctions or damages immediately to the team leader or supervisor.</li>
+                </ul>
 
-        <!-- Workplace Environment Section -->
-        <section class="mb-4">
-            <h2>Workplace Environment</h2>
-            <ul>
-                <li>Maintain a positive and respectful workplace culture. Bullying, harassment, or discriminatory behavior will not be tolerated.</li>
-                <li>Personal items should be kept to a minimum at your station to ensure a clean and professional environment.</li>
-            </ul>
-        </section>
+                <h2>Team Communication </h2>
+                <ul>
+                    <li>Clear and effective communication is expected at all times. If you need assistance or encounter issues, reach out to the team lead or fellow team members.</li>
+                    <li>Use professional and respectful language in all forms of communication, including emails and messages.</li>
+                </ul>
+
+                <h2>Workplace Environment</h2>
+                <ul>
+                    <li>Maintain a positive and respectful workplace culture. Bullying, harassment, or discriminatory behavior will not be tolerated.</li>
+                    <li>Personal items should be kept to a minimum at your station to ensure a clean and professional environment.</li>
+                </ul>
+            </div>
+
+            <!-- v2.0 Policies -->
+            <!--<div class="tab-pane fade" id="generalPoliciesV2" role="tabpanel">
+                <h2>General Rules v2.0</h2>
+                <ul>
+                    <li>All personnel on duty must refrain from using their phones unless it's for church-related purposes only.</li>
+                    <li>Personnel must remain at their stations unless for emergency or assigned tasks.</li>
+                    <li>Full professionalism is expected at all times, no exceptions.</li>
+                    <li>Arrive 20 minutes early for your shift to ensure readiness and organization.</li>
+                    <li>Stations should be kept immaculate at all times.</li>
+                </ul>
+
+                <h2>Failure to Comply v2.0</h2>
+                <ul>
+                    <li>First offense: A warning will be given by the team leader.</li>
+                    <li>Second offense: A formal meeting with a higher authority will be scheduled.</li>
+                    <li>Third offense: Immediate removal from the team.</li>
+                </ul>
+
+                <h2>Punctuality v2.0</h2>
+                <ul>
+                    <li>All personnel must arrive on time for their shifts. Tardiness without notice will lead to disciplinary action.</li>
+                    <li>In case of unavoidable delay, notify the team leader as early as possible.</li>
+                </ul>
+
+                <h2>Respect for Equipment v2.0</h2>
+                <ul>
+                    <li>All equipment should be treated with utmost care. Damage due to negligence will be the responsibility of the individual.</li>
+                    <li>Report any damages immediately to the team leader or supervisor for repair or replacement.</li>
+                </ul>
+
+                <h2>Team Communication v2.0</h2>
+                <ul>
+                    <li>Maintain transparent communication with your team members. Reach out for help if needed.</li>
+                    <li>Maintain professionalism in all forms of communication, including messages, calls, and meetings.</li>
+                </ul>
+
+                <h2>Workplace Environment v2.0</h2>
+                <ul>
+                    <li>Keep a respectful and positive attitude towards fellow team members. Discrimination, harassment, or inappropriate behavior will not be tolerated.</li>
+                    <li>Keep personal items to a minimum and ensure a professional workspace.</li>
+                </ul>
+            </div>-->
+
+        </div>
 
         <!-- Signature Section -->
-        <section class="signature">
+        <section class="signature mt-4">
             <h2>Digital Signature</h2>
             <form action="/api/signatures" method="POST">
                 <div class="mb-3">
