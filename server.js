@@ -8,11 +8,12 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// In-memory storage for announcements (will reset when the server restarts)
+// In-memory storage for announcements and policy signings (will reset when the server restarts)
 let announcements = [];
+let policySignatures = [];
 
 // Timezone configuration (Replace with your specific timezone)
-const TIME_ZONE = 'America/New_York';
+const TIME_ZONE = 'America/Chicago';
 
 // Serve static files (e.g., HTML form in `public` folder)
 app.use(express.static('public'));
@@ -87,6 +88,58 @@ app.delete('/api/announcements/:id', (req, res) => {
     }
 });
 
+// API endpoint for signing policies
+app.post('/api/signatures', (req, res) => {
+    const { name } = req.body;
+
+    if (!name) {
+        return res.status(400).json({ error: 'Name is required to sign the policy' });
+    }
+
+    const zonedDate = utcToZonedTime(new Date(), TIME_ZONE);
+    const timestamp = format(zonedDate, 'yyyy-MM-dd hh:mm:ss a', { timeZone: TIME_ZONE });
+
+    const signature = { id: policySignatures.length, name, timestamp };
+    policySignatures.push(signature);
+
+    // Respond with a Thank You page after signing the policy
+    res.send(`
+        <html>
+            <head>
+                <title>Thank You</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        text-align: center;
+                        padding: 50px;
+                        background-color: #f4f4f9;
+                    }
+                    h1 {
+                        color: #003366;
+                    }
+                    button {
+                        padding: 10px 20px;
+                        font-size: 16px;
+                        background-color: #003366;
+                        color: white;
+                        border: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                    }
+                    button:hover {
+                        background-color: #0055a5;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>Thank You, ${name}!</h1>
+                <p>Your acknowledgment has been recorded.</p>
+                <button onclick="window.location.href='/'">Go Back Home</button>
+            </body>
+        </html>
+    `);
+});
+
 // Dynamic route to display a full announcement
 app.get('/announcement/:id', (req, res) => {
     const id = req.params.id;
@@ -100,23 +153,30 @@ app.get('/announcement/:id', (req, res) => {
                         body {
                             font-family: Arial, sans-serif;
                             padding: 20px;
+                            background-color: #f9f9f9;
                         }
 
                         h1 {
                             color: #003366;
+                            font-size: 2em;
+                            text-align: center;
                         }
 
                         .announcement {
                             background-color: #fff;
                             border: 1px solid #ddd;
                             padding: 20px;
-                            margin: 10px 0;
+                            margin: 20px auto;
+                            max-width: 800px;
                             border-radius: 8px;
-                            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                            text-align: center;
                         }
 
                         .announcement p {
-                            font-size: 18px;
+                            font-size: 1.2em;
+                            line-height: 1.6;
+                            color: #333;
                         }
 
                         button {
@@ -127,6 +187,7 @@ app.get('/announcement/:id', (req, res) => {
                             border: none;
                             border-radius: 5px;
                             cursor: pointer;
+                            transition: background-color 0.3s;
                         }
 
                         button:hover {
