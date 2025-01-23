@@ -88,18 +88,25 @@ app.delete('/api/announcements/:id', (req, res) => {
     }
 });
 
+
+
+// API endpoint to retrieve all policy signings
+app.get('/api/signatures', (req, res) => {
+    res.json(policySignatures);
+});
+
 // API endpoint for signing policies
 app.post('/api/signatures', (req, res) => {
-    const { name } = req.body;
+    const { name, checked } = req.body;
 
-    if (!name) {
-        return res.status(400).json({ error: 'Name is required to sign the policy' });
+    if (!name || checked !== true) {
+        return res.status(400).json({ error: 'You must agree to the policy by checking the box.' });
     }
 
     const zonedDate = utcToZonedTime(new Date(), TIME_ZONE);
     const timestamp = format(zonedDate, 'yyyy-MM-dd hh:mm:ss a', { timeZone: TIME_ZONE });
 
-    const signature = { id: policySignatures.length, name, timestamp };
+    const signature = { id: policySignatures.length, name, timestamp, checked };
     policySignatures.push(signature);
 
     // Respond with a Thank You page after signing the policy
@@ -139,6 +146,7 @@ app.post('/api/signatures', (req, res) => {
         </html>
     `);
 });
+
 
 // Dynamic route to display a full announcement
 app.get('/announcement/:id', (req, res) => {
