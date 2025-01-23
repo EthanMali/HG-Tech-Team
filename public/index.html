@@ -41,6 +41,25 @@
             color: #333;
         }
 
+        .announcement {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .announcement:hover {
+            background-color: #f0f0f0;
+        }
+
+        .no-announcement {
+            color: #555;
+        }
+
         /* Navigation Styles */
         nav {
             display: flex;
@@ -202,8 +221,7 @@
             const menu = document.querySelector('.menu');
             menu.classList.toggle('active');
         }
-
- // Fetch Announcements from the server
+        // Fetch Announcements from the server
         async function fetchAnnouncements() {
             try {
                 const response = await fetch('/api/announcements');  // Fetching announcements from the server
@@ -211,12 +229,11 @@
                 const announcementsDiv = document.getElementById('announcements');
 
                 if (announcements.length > 0) {
-                    // Display all announcements
+                    // Display all announcements with a link to their dynamic page
                     announcementsDiv.innerHTML = announcements
-                        .map((announcement) => {
+                        .map((announcement, index) => {
                             return `
-                                <div class="announcement">
-                                    <h3>Announcement: ${announcement.timestamp}</h3>
+                                <div class="announcement" onclick="window.location.href='/announcement/${index}'">
                                     <p>${announcement.message}</p>
                                 </div>
                             `;
