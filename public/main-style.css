@@ -1,0 +1,202 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #121212; /* Dark theme base */
+    color: #e0e0e0; /* Soft light gray */
+    line-height: 1.8;
+    overflow-x: hidden;
+}
+
+header {
+    background: linear-gradient(135deg, #1f2937, #111827); /* Gradient for a polished look */
+    color: #ffffff;
+    text-align: center;
+    padding: 30px 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+header h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: #9ca3af; /* Muted gray for subtitles */
+}
+
+nav {
+    background-color: #1f2937; /* Dark gray nav bar */
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+nav a {
+    text-decoration: none;
+    color: #38bdf8; /* Bright cyan-blue */
+    padding: 12px 20px;
+    margin: 0 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    border-radius: 5px;
+}
+
+nav a:hover {
+    background-color: #2563eb; /* Bright blue */
+    color: #fff;
+}
+
+main {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+section {
+    background: #1e293b; /* Dark card background */
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.8s ease-in-out;
+    color: #1d2941; /* Light gray text */
+}
+
+section h2 {
+    font-size: 2.2rem;
+    color: #38bdf8; /* Cyan headers */
+    border-bottom: 2px solid #38bdf8;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+}
+
+section p, section ul {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+ul li {
+    background: #2a3c63; /* Slightly darker card within */
+    color: #e5e7eb;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #2563eb;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+a {
+    text-decoration: none;
+    color: #38bdf8;
+}
+
+ul li:hover {
+    transform: translateY(-5px);
+}
+
+ul li::before {
+    content: "🎯";
+    color: #38bdf8;
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+form {
+    text-align: center;
+    margin-top: 30px;
+}
+
+form input, form button {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 15px;
+    padding: 15px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+form input {
+    background-color: #b4b6bb; /* Form inputs styled like cards */
+    color: #696969;
+    border: 2px solid #38bdf8;
+}
+
+form input::placeholder {
+    color: #424242;
+}
+
+form button {
+    background-color: #38bdf8;
+    color: #0f172a;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease-in-out;
+}
+
+form button:hover {
+    background-color: #2563eb;
+}
+
+footer {
+    background: linear-gradient(135deg, #1f2937, #111827);
+    text-align: center;
+    padding: 20px 0;
+    color: #222222;
+    font-size: 0.9rem;
+    border-top: 2px solid #334155;
+    margin-top: 50px;
+}
+
+footer a {
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.signature {
+    color: #111827;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

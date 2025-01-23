@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main-style.css">
+    <title>Production Team Policy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            text-align: center;
+            background-color: #003366;
+            color: white;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        section {
+            background: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        section h2 {
+            font-size: 20px;
+            border-bottom: 2px solid #003366;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            color: #003366;
+        }
+        ul {
+            list-style-type: decimal;
+            margin-left: 20px;
+        }
+        ul li {
+            margin-bottom: 10px;
+        }
+        .signature {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .signature label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .signature input {
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        footer {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Production Team Policy</h1>
+        <p>Guidelines for Professional Conduct and Productivity</p>
+    </header>
+
+    <section>
+        <h2>General Rules</h2>
+        <ul>
+            <li>All personnel on duty must refrain from using their phones unless for church purposes.</li>
+            <li>All personnel must not leave their duty station unless it is an emergency.</li>
+            <li>I expect full professionalism and no playing around.</li>
+            <li>All personnel should arrive at their stations at least 15 minutes before their scheduled time to ensure readiness.</li>
+            <li>Maintain cleanliness and organization at your station at all times.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Failure to Comply</h2>
+        <ul>
+            <li>First offense: You will be spoken to directly by the team leader.</li>
+            <li>Second offense: You will be required to meet with a higher authority.</li>
+            <li>Third offense: You will be removed from the production team.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Punctuality</h2>
+        <ul>
+            <li>All personnel must arrive on time for their shifts. Being late without prior notification will result in disciplinary action.</li>
+            <li>If you anticipate being late, inform the team leader as early as possible.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Respect for Equipment</h2>
+        <ul>
+            <li>Handle all production equipment with care. Any damage caused by neglect or improper use will result in personal responsibility for repair costs.</li>
+            <li>Report any malfunctions or damages immediately to the team leader or supervisor.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Team Communication</h2>
+        <ul>
+            <li>Clear and effective communication is expected0 at all times. If you need assistance or encounter issues, reach out to the team lead or fellow team members.</li>
+            <li>Use professional and respectful language in all forms of communication, including emails and messages.</li>
+        </ul>
+    </section>
+
+
+    <section>
+        <h2>Workplace Environment</h2>
+        <ul>
+            <li>Maintain a positive and respectful workplace culture. Bullying, harassment, or discriminatory behavior will not be tolerated.</li>
+            <li>Personal items should be kept to a minimum at your station to ensure a clean and professional environment.</li>
+        </ul>
+    </section>
+
+
+
+    <section class="signature">
+        <h2>Digital Signature</h2>
+        <form action="/api/signatures" method="POST">
+            <p>Please enter your name below to acknowledge and agree to these policies:</p>
+            <label for="signature">Your Name:</label>
+            <p></p>
+            <input type="text" id="signature" name="name" placeholder="Type your name here" required>
+            <button type="submit" style="padding: 10px 20px; font-size: 16px; background-color: #003366; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Submit
+            </button>
+        </form>
+    </section>
+    
+
+    <footer>
+        &copy; 2025 Production Team | All rights reserved. For any questions, contact the team lead.
+    </footer>
+</body>
+</html>
