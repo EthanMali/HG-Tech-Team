@@ -11,7 +11,10 @@
         textarea { width: 100%; padding: 10px; }
         button { background-color: #003366; color: white; padding: 10px; }
         button:hover { background-color: #0055a5; }
-        .announcement { background-color: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .announcement { background-color: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 5px; cursor: pointer; }
+        .announcement:hover { background-color: #eaeaea; }
+        .announcement p { margin: 0; }
+        .announcement-details { background-color: #f1f1f1; padding: 15px; margin: 10px 0; border-radius: 5px; display: none; }
         .delete-button { background-color: red; padding: 5px 10px; color: white; border: none; cursor: pointer; }
         .delete-button:hover { background-color: darkred; }
     </style>
@@ -35,15 +38,25 @@
             const announcements = await response.json();
             const existingAnnouncementsDiv = document.getElementById('existingAnnouncements');
             existingAnnouncementsDiv.innerHTML = announcements.map(announcement => `
-                <div class="announcement">
+                <div class="announcement" onclick="toggleAnnouncementDetails(${announcement.id})">
                     <p>${announcement.message}</p>
-                    <button class="delete-button" onclick="deleteAnnouncement(${announcement.id})">Delete</button>
+                    <button class="delete-button" onclick="deleteAnnouncement(event, ${announcement.id})">Delete</button>
+                    <div id="details-${announcement.id}" class="announcement-details">
+                        <p><strong>Details:</strong> ${announcement.message}</p>
+                    </div>
                 </div>
             `).join('');
         }
 
+        // Toggle the visibility of the announcement details
+        function toggleAnnouncementDetails(id) {
+            const detailsDiv = document.getElementById(`details-${id}`);
+            detailsDiv.style.display = detailsDiv.style.display === 'block' ? 'none' : 'block';
+        }
+
         // Delete an announcement
-        async function deleteAnnouncement(id) {
+        async function deleteAnnouncement(event, id) {
+            event.stopPropagation(); // Prevent toggle from triggering on delete button
             const response = await fetch(`https://hg-tech-team.onrender.com/api/announcements/${id}`, {
                 method: 'DELETE'
             });
