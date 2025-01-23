@@ -31,6 +31,16 @@
             margin: 5px 0;
         }
 
+        /* Announcement Section */
+        #announcements {
+            background-color: #ffdd57;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
         /* Navigation Styles */
         nav {
             display: flex;
@@ -144,34 +154,39 @@
         <p>Your one-stop hub for all production and technical needs</p>
     </header>
 
+
+
     <nav id="nav">
-        <!-- Mobile Toggle Button -->
         <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 
-        <!-- Regular Navigation Links -->
         <div class="menu">
             <a href="policy.html">View Team Policies</a>
             <a href="resources.html">Team Resources</a>
-            <!--<a href="schedule.html">Production Schedule</a>-->
         </div>
     </nav>
+
+        <!-- Announcement Section -->
+    <div id="announcements">
+        <!-- Announcements will be loaded dynamically here -->
+        Loading announcements...
+    </div>
 
     <main>
         <section>
             <h2>About the Tech Team</h2>
-            <p>The Tech Team plays a crucial role in ensuring every production runs smoothly. From sound systems to lighting, video feeds to equipment management, we are the backbone of the operation. Our commitment to professionalism and excellence ensures a seamless experience for everyone involved.</p>
+            <p>The Tech Team plays a crucial role in ensuring every production runs smoothly...</p>
         </section>
 
         <section>
             <h2>Our Mission</h2>
-            <p>We aim to provide top-notch technical support and innovative solutions for every production. By working together as a team and adhering to our policies, we ensure an efficient, safe, and productive environment for all.</p>
+            <p>We aim to provide top-notch technical support and innovative solutions...</p>
         </section>
 
         <section>
             <h2>Quick Links</h2>
             <ul>
                 <li><a href="policy.html">Team Policies</a> - Stay up to date with our guidelines</li>
-                <li><a href="resources.html">Resources</a> - Access equipment guides, tutorials, and manuals</li>
+                <li><a href="resources.html">Resources</a> - Access equipment guides</li>
                 <li><a href="schedule.html">Production Schedule</a> - Check the upcoming event lineup</li>
             </ul>
         </section>
@@ -187,6 +202,25 @@
             const menu = document.querySelector('.menu');
             menu.classList.toggle('active');
         }
+
+        // Fetch Announcements from Server
+        async function fetchAnnouncements() {
+            try {
+                const response = await fetch('announcements.json'); // You will need to create and serve this JSON file
+                const announcements = await response.json();
+                const announcementsDiv = document.getElementById('announcements');
+                if (announcements.length > 0) {
+                    announcementsDiv.innerHTML = announcements[0].message; // Show the latest announcement
+                } else {
+                    announcementsDiv.innerHTML = 'No announcements at the moment.';
+                }
+            } catch (error) {
+                console.error('Error fetching announcements:', error);
+                document.getElementById('announcements').innerHTML = 'Failed to load announcements.';
+            }
+        }
+
+        fetchAnnouncements();
     </script>
 </body>
 </html>

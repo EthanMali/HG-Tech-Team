@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #003366;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #003366;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0055a5;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Admin Panel</h1>
+    <form id="announcementForm">
+        <label for="announcement">Write Announcement:</label>
+        <textarea id="announcement" rows="5"></textarea>
+        <button type="submit">Submit Announcement</button>
+    </form>
+
+    <script>
+        document.getElementById('announcementForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const announcementMessage = document.getElementById('announcement').value;
+
+            const response = await fetch('save-announcement.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: announcementMessage })
+            });
+
+            if (response.ok) {
+                alert('Announcement submitted successfully!');
+            } else {
+                alert('Failed to submit announcement.');
+            }
+        });
+    </script>
+
+</body>
+</html>
